@@ -6,7 +6,7 @@ int main() {
     // No SFML 3, passamos um sf::Vector2u dentro do VideoMode
     sf::RenderWindow window(sf::VideoMode({400, 400}), "Chess Game");
     
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(20);
 
     sf::RectangleShape square = sf::RectangleShape(sf::Vector2f(50.f, 50.f));
     square.setFillColor(sf::Color::Black);
