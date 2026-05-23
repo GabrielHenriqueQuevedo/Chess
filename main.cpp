@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
+#include <bitset>
 
 class Piece {
     public:
@@ -21,27 +23,56 @@ class Pawn : public Piece {
         virtual sf::RectangleShape createPiece(sf::Color color) override {
             sf::RectangleShape piece = Piece::createPiece(color);
         }
-
 };
 
 class Bishop : public Piece {
-
+    public:
+        bool isLegalMove(int startX, int startY, int endX, int endY) override {
+            Piece::isLegalMove(startX, startY, endX, endY);
+        }
+        virtual sf::RectangleShape createPiece(sf::Color color) override {
+            sf::RectangleShape piece = Piece::createPiece(color);
+        }
 };
 
 class Knight : public Piece {
-
+    public:
+        bool isLegalMove(int startX, int startY, int endX, int endY) override {
+            Piece::isLegalMove(startX, startY, endX, endY);
+        }
+        virtual sf::RectangleShape createPiece(sf::Color color) override {
+            sf::RectangleShape piece = Piece::createPiece(color);
+        }
 };
 
 class Rook : public Piece {
-
+    public:
+        bool isLegalMove(int startX, int startY, int endX, int endY) override {
+            Piece::isLegalMove(startX, startY, endX, endY);
+        }
+        virtual sf::RectangleShape createPiece(sf::Color color) override {
+            sf::RectangleShape piece = Piece::createPiece(color);
+        }
 };
 
 class Queen : public Piece {
-
+    public:
+        bool isLegalMove(int startX, int startY, int endX, int endY) override {
+            Piece::isLegalMove(startX, startY, endX, endY);
+        }
+        virtual sf::RectangleShape createPiece(sf::Color color) override {
+            sf::RectangleShape piece = Piece::createPiece(color);
+        }
 };
 
 class King : public Piece {
-
+    public:
+        bool isLegalMove(int startX, int startY, int endX, int endY) override {
+            Piece::isLegalMove(startX, startY, endX, endY);
+        }
+        virtual sf::RectangleShape createPiece(sf::Color color) override {
+            sf::RectangleShape piece = Piece::createPiece(color);
+        }
 };
 
 sf::RectangleShape createSquare(float x, float y, sf::Color color);
@@ -59,28 +90,39 @@ int main() {
     1  2  3  4  5  6  7  8
     */
 
-    uint64_t w_pawns;
-    uint64_t w_bishops;
-    uint64_t w_knights;
-    uint64_t w_rooks;
-    uint64_t w_queens;
-    uint64_t w_king;
-    
-    uint64_t b_pawns;
-    uint64_t b_bishops;
-    uint64_t b_knights;
-    uint64_t b_rooks;
-    uint64_t b_queens;
-    uint64_t b_king;
+    /*
+    HEX - linhas:
+    8  7  6  5  4  3  2  1
+    00 00 00 00 00 00 00 00
+    */
 
-    uint64_t allWhites;
-    uint64_t allBlacks;
+    uint64_t w_pawns   = 0x00'00'00'00'00'00'FF'00ULL;
+    uint64_t w_bishops = 0x00'00'00'00'00'00'00'24ULL;
+    uint64_t w_knights = 0x00'00'00'00'00'00'00'42ULL;
+    uint64_t w_rooks   = 0x00'00'00'00'00'00'00'81ULL;
+    uint64_t w_queens  = 0x00'00'00'00'00'00'00'01ULL;
+    uint64_t w_king    = 0x00'00'00'00'00'00'00'80ULL;
+    
+    uint64_t b_pawns   = 0x00'FF'00'00'00'00'00'00ULL;
+    uint64_t b_bishops = 0x24'00'00'00'00'00'00'00ULL;
+    uint64_t b_knights = 0x42'00'00'00'00'00'00'00ULL;
+    uint64_t b_rooks   = 0x81'00'00'00'00'00'00'00ULL;
+    uint64_t b_queens  = 0x01'00'00'00'00'00'00'00ULL;
+    uint64_t b_king    = 0x80'00'00'00'00'00'00'00ULL;
+
+    uint64_t allWhites = w_pawns | w_bishops | w_knights | w_rooks | w_queens | w_king;
+    uint64_t allBlacks = b_pawns | b_bishops | b_knights | b_rooks | b_queens | b_king;
 
     uint64_t allPieces = allWhites | allBlacks;
 
-    // board |= (1ULL << square_index);
+    uint64_t de = 1ULL << 8;
+    uint64_t para = de << 8;
 
-    // No SFML 3, passamos um sf::Vector2u dentro do VideoMode
+    if (w_pawns & de) {
+        w_pawns &= ~de;
+        w_pawns |= para;
+    }
+
     sf::RenderWindow window(sf::VideoMode({400, 400}), "Chess Game");
     
     window.setFramerateLimit(60);
